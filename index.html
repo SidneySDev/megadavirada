@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Mega-Sena da Virada</title>
+    <style>
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #003f7d, #0083ca);
+            color: #fff;
+        }
+
+        .left, .right {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .left {
+            border-right: 2px solid #ddd;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.7);
+            color: #333;
+        }
+
+        button {
+            background: #ffcc00;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #ffd633;
+        }
+
+        .games {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .games li {
+            background: rgba(255, 255, 255, 0.2); /* Glassmorphism effect */
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px); /* Adds the blur effect */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-numbers {
+            display: flex;
+            gap: 5px;
+            
+        }
+
+        .game-numbers span {
+            background: #ffcc00;
+            color: #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .game-numbers span.correct {
+            background-color: #28a745;
+            color: #fff;
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(40, 167, 69, 0.8);
+        }
+
+        .game-numbers span.error {
+            color: #ff6b6b;
+        }
+
+        #countdown {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 2px 2px 5px #000;
+        }
+
+        .right {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        .locked {
+            background: #666;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .locked:hover {
+            background: #666;
+        }
+
+        /* Glassmorphism effect for form elements */
+        .form-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px); /* Adds the blur effect */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: rgba(255, 255, 255, 0.4); /* Semi-transparent white background */
+            padding: 10px;
+            color: #333;
+        }
+
+        .numbers-input {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .numbers-input input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 1.2em;
+            border-radius: 50%;
+            border: 1px solid black;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .drawn-numbers-input {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .drawn-numbers-input input {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 1.2em;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <h1>Cadastro de Jogos Mega-Sena da Virada</h1>
+        <div class="form-container">
+            <label for="numbers">Adicione os 06 números da Mega-Sena:</label>
+            <div class="numbers-input">
+                <input type="number" id="num1" min="1" max="60" placeholder="1">
+                <input type="number" id="num2" min="1" max="60" placeholder="2">
+                <input type="number" id="num3" min="1" max="60" placeholder="3">
+                <input type="number" id="num4" min="1" max="60" placeholder="4">
+                <input type="number" id="num5" min="1" max="60" placeholder="5">
+                <input type="number" id="num6" min="1" max="60" placeholder="6">
+            </div>
+
+            <label for="player">Adicione o nome do jogador:</label>
+            <div class="input-field">
+                <input type="text" id="player" placeholder="Nome do jogador">
+            </div>
+
+            <label for="password">Senha para travar apostas:</label>
+            <div class="input-field">
+                <input type="password" id="password" placeholder="Digite a senha">
+            </div>
+
+            <button id="add-game">Adicionar Jogo</button>
+
+            <div class="error" id="error-msg"></div>
+
+            <h2>Cronômetro</h2>
+            <div id="countdown">Calculando tempo restante...</div>
+
+            <h2>Números Sorteados</h2>
+            <div class="drawn-numbers-input">
+                <input type="number" id="drawn-num1" min="1" max="60" placeholder="1">
+                <input type="number" id="drawn-num2" min="1" max="60" placeholder="2">
+                <input type="number" id="drawn-num3" min="1" max="60" placeholder="3">
+                <input type="number" id="drawn-num4" min="1" max="60" placeholder="4">
+                <input type="number" id="drawn-num5" min="1" max="60" placeholder="5">
+                <input type="number" id="drawn-num6" min="1" max="60" placeholder="6">
+            </div>
+            <button id="check-games">Comparar com os jogos cadastrados</button>
+        </div>
+    </div>
+
+    <div class="right">
+        <h1>Jogos Cadastrados</h1>
+        <ul id="games-list" class="games">
+            <!-- Jogos cadastrados aparecerão aqui -->
+        </ul>
+    </div>
+
+    <script>
+        // Definir a data do sorteio
+        const drawDate = new Date('2024-12-31T20:00:00');
+
+        // Atualizar cronômetro
+        function updateCountdown() {
+            const now = new Date();
+            const diff = drawDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'O sorteio já começou!';
+                return;
+            }
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').textContent = `${hours}h ${minutes}m ${seconds}s restantes.`;
+        }
+
+        setInterval(updateCountdown, 1000);
+
+        // Função para adicionar um novo jogo
+        const games = [];
+        const gameList = document.getElementById('games-list');
+
+        document.getElementById('add-game').addEventListener('click', function () {
+            const player = document.getElementById('player').value;
+            const numbers = [
+                parseInt(document.getElementById('num1').value),
+                parseInt(document.getElementById('num2').value),
+                parseInt(document.getElementById('num3').value),
+                parseInt(document.getElementById('num4').value),
+                parseInt(document.getElementById('num5').value),
+                parseInt(document.getElementById('num6').value)
+            ];
+
+            if (numbers.some(num => isNaN(num) || num < 1 || num > 60) || !player) {
+                alert("Por favor, preencha todos os campos corretamente.");
+                return;
+            }
+
+            games.push({ player, numbers });
+
+            const gameItem = document.createElement('li');
+            gameItem.innerHTML = `
+                <span>${player}</span>: 
+                <div class="game-numbers">
+                    ${numbers.map(num => `<span>${num}</span>`).join('')}
+                </div>
+            `;
+            gameList.appendChild(gameItem);
+        });
+
+        // Função para verificar os jogos
+        document.getElementById('check-games').addEventListener('click', function () {
+            const drawnNumbers = [
+                parseInt(document.getElementById('drawn-num1').value),
+                parseInt(document.getElementById('drawn-num2').value),
+                parseInt(document.getElementById('drawn-num3').value),
+                parseInt(document.getElementById('drawn-num4').value),
+                parseInt(document.getElementById('drawn-num5').value),
+                parseInt(document.getElementById('drawn-num6').value)
+            ];
+
+            if (drawnNumbers.some(num => isNaN(num) || num < 1 || num > 60)) {
+                alert("Por favor, preencha todos os campos de números sorteados.");
+                return;
+            }
+
+            const gameItems = document.querySelectorAll('.game-numbers');
+            gameItems.forEach((gameItem, index) => {
+                const game = games[index];
+                const numberSpans = gameItem.querySelectorAll('span');
+                numberSpans.forEach((span, idx) => {
+                    if (drawnNumbers.includes(game.numbers[idx])) {
+                        span.classList.add('correct');
+                    } else {
+                        span.classList.remove('correct');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
